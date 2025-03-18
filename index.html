@@ -15,9 +15,10 @@
 </li>
 <li><p>规划路径的要求：安全(无碰撞)、光滑、运动学</p>
 </li>
-<li><p>前端：路径规划、在低维状态空间，通常是离散的，去寻找一条初始的、安全的、让机器人可以通行的、解的质量不是特别好的初始值，我们称他为路径，path。这个路径通常是没有时间信息的，只局限于低维的、没有高维信息的。之后我们通过后端的轨迹优化，把这个低维的path，转变为或者说在他周围搜索一条高维的可以执行的轨迹(Trajectory)，这通常在一个高维的连续空间。</p>
-</li>
-<li><p>后端：轨迹生成(轨迹优化)，</p>
+<li><p>前端：路径规划， 后端：轨迹生成(轨迹优化)</p>
+<blockquote>
+<p><strong>在低维状态空间，通常是离散的，去寻找一条初始的、安全的、让机器人可以通行的、解的质量不是特别好的初始值，我们称他为路径，path。这个路径通常是没有时间信息的，只局限于低维的、没有高维信息的。之后我们通过后端的轨迹优化，把这个低维的path，转变为或者说在他周围搜索一条高维的可以执行的轨迹(Trajectory)，这通常在一个高维的连续的状态空间中进行的，要用到很多的优化技巧。</strong></p>
+</blockquote>
 </li>
 </ul>
 </div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2025/03/12/dyn-param-cient/">dyn_param_cient</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2025-03-12</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/DEBUG/">DEBUG</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/DEBUG/">DEBUG</a></span><div class="content"><p>在使用<code>dynamic_reconfigure::Client</code>时出一个奇怪的现象，<code>getCurrentConfiguration()</code>获取不到现有的参数。查看该函数的实现</p>
