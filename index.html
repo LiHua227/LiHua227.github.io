@@ -48,6 +48,34 @@
 <li>TSDF map (截断的符号距离场)</li>
 <li>ESDF map (不截断的欧式符号距离场)</li>
 </ul>
+<h2 id="第二章、基于搜索的路径规划"><a href="#第二章、基于搜索的路径规划" class="headerlink" title="第二章、基于搜索的路径规划"></a>第二章、基于搜索的路径规划</h2><h3 id="2-1-图搜索基础"><a href="#2-1-图搜索基础" class="headerlink" title="2.1 图搜索基础"></a>2.1 图搜索基础</h3><ol>
+<li><p>图(graph)由节点和边组成，边可以赋予权重和方向。</p>
+</li>
+<li><p>图搜索的一般步骤：</p>
+<ol>
+<li>起始点start_node 加入 openList</li>
+<li>扩展start_node，扩展节点加入openList</li>
+<li>pop出openList中cost最小的节点，判断是否到达，没有则加入closedList</li>
+<li>扩展pop出的节点，并加入openList中</li>
+<li>循环4、5，直至找到重点</li>
+</ol>
+</li>
+<li><p>广度优先搜索：新进新出，维护的是一个队列；深度优先搜索：新进后出，维护的是一个堆栈；</p>
+</li>
+</ol>
+<h3 id="2-2-Dijkstra和A星算法"><a href="#2-2-Dijkstra和A星算法" class="headerlink" title="2.2 Dijkstra和A星算法"></a>2.2 Dijkstra和A星算法</h3><h5 id="2-2-1-Dijkstra算法"><a href="#2-2-1-Dijkstra算法" class="headerlink" title="2.2.1 Dijkstra算法"></a>2.2.1 Dijkstra算法</h5><ul>
+<li>D算法维护一个优先级队列</li>
+<li>D算法的cost是起点到当前点的距离；cost_g;</li>
+<li>D算法对OpenList中的节点会更新他们的cost，同时更新他们的父节点</li>
+</ul>
+<h4 id="2-2-2-A星算法"><a href="#2-2-2-A星算法" class="headerlink" title="2.2.2 A星算法"></a>2.2.2 A星算法</h4><ul>
+<li>贪星算法 + Dijkstra &#x3D; A星</li>
+<li>Heuristic 启发性的；</li>
+<li>A星Cost &#x3D; cost_g + cost_h；其中cost_h为当前点到终点的距离；</li>
+<li>A星最优行的保证前提是：cost_h小于该点到终点的真实距离；</li>
+<li>权重A星，cost_h_weighted &#x3D; weightd * cost_h。weightd &gt; 1,该值越大，算法越接近谈心算法，会带来速度的提升，但是没有办法保证最优性。</li>
+<li>在空旷场景应该使A算法趋近于贪心该算法；</li>
+</ul>
 </div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2025/03/12/dyn-param-cient/">dyn_param_cient</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2025-03-12</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/DEBUG/">DEBUG</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/DEBUG/">DEBUG</a></span><div class="content"><p>在使用<code>dynamic_reconfigure::Client</code>时出一个奇怪的现象，<code>getCurrentConfiguration()</code>获取不到现有的参数。查看该函数的实现</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief getCurrentConfiguration Gets the latest configuration from the</span></span><br><span class="line"><span class="comment"> * dynamic_reconfigure::Server</span></span><br><span class="line"><span class="comment"> * @param configuration The object where the configuration will be stored</span></span><br><span class="line"><span class="comment"> * @param timeout The duration that the client should wait for the</span></span><br><span class="line"><span class="comment"> * configuration, if set to ros::Duration(0) will wait indefinetely</span></span><br><span class="line"><span class="comment"> * @return False if the timeout has happened</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">getCurrentConfiguration</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    ConfigType&amp; configuration,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> ros::Duration&amp; timeout = ros::Duration(<span class="number">0</span>))</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (timeout == ros::<span class="built_in">Duration</span>(<span class="number">0</span>)) &#123;</span><br><span class="line">    <span class="built_in">ROS_INFO_ONCE</span>(<span class="string">&quot;Waiting for configuration...&quot;</span>);</span><br><span class="line">    boost::<span class="function">mutex::scoped_lock <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!received_configuration_) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!ros::<span class="built_in">ok</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      cv_.<span class="built_in">wait</span>(lock);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ros::Time start_time = ros::Time::<span class="built_in">now</span>();</span><br><span class="line">    boost::<span class="function">mutex::scoped_lock <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!received_configuration_) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!ros::<span class="built_in">ok</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      ros::Duration time_left = timeout - (ros::Time::<span class="built_in">now</span>() - start_time);</span><br><span class="line">      <span class="keyword">if</span> (time_left.<span class="built_in">toSec</span>() &lt;= <span class="number">0.0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      cv_.<span class="built_in">wait_for</span>(lock, boost::chrono::<span class="built_in">nanoseconds</span>(time_left.<span class="built_in">toNSec</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  configuration = latest_configuration_;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
