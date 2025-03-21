@@ -92,22 +92,22 @@
 <h2 id="第三章、基于采样的路径规划"><a href="#第三章、基于采样的路径规划" class="headerlink" title="第三章、基于采样的路径规划"></a>第三章、基于采样的路径规划</h2><h3 id="3-1-RRT"><a href="#3-1-RRT" class="headerlink" title="3.1 RRT*"></a>3.1 RRT*</h3><ul>
 <li>相较RRT增加了<code>chooseParent()</code>和<code>rewire()</code>环节。该改进措施保证了RRT星的渐进最优性；</li>
 </ul>
-<h4 id="3-2-kinodynamic-RRT"><a href="#3-2-kinodynamic-RRT" class="headerlink" title="3.2 kinodynamic-RRT*"></a>3.2 kinodynamic-RRT*</h4><ul>
+<h3 id="3-2-kinodynamic-RRT"><a href="#3-2-kinodynamic-RRT" class="headerlink" title="3.2 kinodynamic-RRT*"></a>3.2 kinodynamic-RRT*</h3><ul>
 <li>考虑机器人的运动学约束；</li>
 <li>使用曲线代替直线；</li>
 </ul>
-<h4 id="3-3-Anytime-RRT"><a href="#3-3-Anytime-RRT" class="headerlink" title="3.3 Anytime-RRT*"></a>3.3 Anytime-RRT*</h4><ul>
+<h3 id="3-3-Anytime-RRT"><a href="#3-3-Anytime-RRT" class="headerlink" title="3.3 Anytime-RRT*"></a>3.3 Anytime-RRT*</h3><ul>
 <li>实时更新路径，一直采样；</li>
 <li>适用于环境实时变化的场景；</li>
 </ul>
-<h4 id="3-4-Informed-RRT"><a href="#3-4-Informed-RRT" class="headerlink" title="3.4 Informed-RRT*"></a>3.4 Informed-RRT*</h4><ul>
+<h3 id="3-4-Informed-RRT"><a href="#3-4-Informed-RRT" class="headerlink" title="3.4 Informed-RRT*"></a>3.4 Informed-RRT*</h3><ul>
 <li>构建椭圆形非均匀采样区域；</li>
 </ul>
-<h4 id="3-5-Cross-entropy-montion-planing"><a href="#3-5-Cross-entropy-montion-planing" class="headerlink" title="3.5 Cross-entropy montion planing"></a>3.5 Cross-entropy montion planing</h4><ul>
+<h3 id="3-5-Cross-entropy-montion-planing"><a href="#3-5-Cross-entropy-montion-planing" class="headerlink" title="3.5 Cross-entropy montion planing"></a>3.5 Cross-entropy montion planing</h3><ul>
 <li>对初始路径中的点，每个点构建一个圆形采样区域，重复采样；</li>
 </ul>
-<h4 id="3-6-总结"><a href="#3-6-总结" class="headerlink" title="3.6 总结"></a>3.6 总结</h4><p>关于RRT算法的改进主要集中在各个环节。</p>
-<h2 id="第四章、运动学约束下的路径规划"><a href="#第四章、运动学约束下的路径规划" class="headerlink" title="第四章、运动学约束下的路径规划"></a>第四章、运动学约束下的路径规划</h2><h4 id="4-1-动力学概念简介"><a href="#4-1-动力学概念简介" class="headerlink" title="4.1 动力学概念简介"></a>4.1 动力学概念简介</h4><ul>
+<h3 id="3-6-总结"><a href="#3-6-总结" class="headerlink" title="3.6 总结"></a>3.6 总结</h3><p>关于RRT算法的改进主要集中在各个环节。</p>
+<h2 id="第四章、运动学约束下的路径规划"><a href="#第四章、运动学约束下的路径规划" class="headerlink" title="第四章、运动学约束下的路径规划"></a>第四章、运动学约束下的路径规划</h2><h3 id="4-1-动力学概念简介"><a href="#4-1-动力学概念简介" class="headerlink" title="4.1 动力学概念简介"></a>4.1 动力学概念简介</h3><ul>
 <li>Kinodynamic : Kinematic + Dynamic 该词是一个合成词（运动学+动力学）</li>
 <li>为什么要在前端路径规划时考虑运动学约束？<ul>
 <li>机器人不能够走折线</li>
@@ -115,7 +115,7 @@
 </ul>
 </li>
 </ul>
-<h4 id="4-2-状态栅格搜索算法"><a href="#4-2-状态栅格搜索算法" class="headerlink" title="4.2 状态栅格搜索算法"></a>4.2 状态栅格搜索算法</h4><ul>
+<h3 id="4-2-状态栅格搜索算法"><a href="#4-2-状态栅格搜索算法" class="headerlink" title="4.2 状态栅格搜索算法"></a>4.2 状态栅格搜索算法</h3><ul>
 <li>满足运动学约束的路径规划关键在于：<strong>连接节点的边要是feasible motion connections</strong></li>
 <li>为了实现这种特殊的边，有两种方法<ul>
 <li>正向方法：离散控制空间，机器人以不同的速度前进的轨迹</li>
