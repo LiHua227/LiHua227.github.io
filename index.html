@@ -169,6 +169,23 @@
 <li>微分平坦： 高维的状态空间和输入空间中的状态可以被低维输出空间表示；</li>
 </ul>
 <h3 id="5-3-closed-form-solution-for-minimum-smp"><a href="#5-3-closed-form-solution-for-minimum-smp" class="headerlink" title="5.3 closed-form solution for minimum smp"></a>5.3 closed-form solution for minimum smp</h3><p>没看懂。</p>
+<h2 id="第八章-经典框架"><a href="#第八章-经典框架" class="headerlink" title="第八章 经典框架"></a>第八章 经典框架</h2><h3 id="8-1-FastPlanner"><a href="#8-1-FastPlanner" class="headerlink" title="8.1 FastPlanner"></a>8.1 FastPlanner</h3><h4 id="8-1-1前端（Front-end）——-混合A星-Hybrid-A"><a href="#8-1-1前端（Front-end）——-混合A星-Hybrid-A" class="headerlink" title="8.1.1前端（Front-end）—— 混合A星(Hybrid A*)"></a>8.1.1前端（Front-end）—— 混合A星(Hybrid A*)</h4><ol>
+<li>与A星不同点_1——扩展方式 <strong>Expand();</strong></li>
+</ol>
+<p>$$<br>X(t)&#x3D;e^{At}X(0)+\int_{0}^{t}{e^{A(t-\gamma)}BU(\gamma)d\gamma}<br>$$</p>
+<p>其中$U(\gamma)$并不是关于时间的函数，而是$U_{Max}$的离散，控制输入$U$为加速度，运动时间$t$为定值，$X(0)$为某一时刻的初始状态</p>
+<ol start="2">
+<li>与A星不同点_2——代价计算 <strong>EdgeCost();</strong></li>
+</ol>
+<p>$$<br>J(T)&#x3D;{\int_{0}^{T} {\lVert U(t) \rVert}^2dt } + \rho T<br>$$</p>
+<p>其中$T$为定值，$\rho$为时间系数 </p>
+<p>​	<strong>AllCost();</strong><br>$$<br>AllCost(n) &#x3D; \sum_{i&#x3D;0}^{n}{J_i}<br>$$</p>
+<ol start="3">
+<li><p>与A星不同点_3——启发值函数 <strong>Heuristic()</strong></p>
+<p>混合A星的启发值函数计算方式有两种：当前点到终点的最短A星路径 $and$ 最短动力学路径的$AllCost()$</p>
+<p>后者通过多项式轨迹的优化求解；</p>
+</li>
+</ol>
 <h1 id="吴恩达：机器学习"><a href="#吴恩达：机器学习" class="headerlink" title="吴恩达：机器学习"></a>吴恩达：机器学习</h1><h2 id="第一部分-了解机器学习"><a href="#第一部分-了解机器学习" class="headerlink" title="第一部分 了解机器学习"></a>第一部分 了解机器学习</h2><h3 id="1-1-1-欢迎来到机器学习"><a href="#1-1-1-欢迎来到机器学习" class="headerlink" title="1.1.1 欢迎来到机器学习"></a>1.1.1 欢迎来到机器学习</h3><h3 id="1-1-2-什么是机器学习？"><a href="#1-1-2-什么是机器学习？" class="headerlink" title="1.1.2 什么是机器学习？"></a>1.1.2 什么是机器学习？</h3><p><code>Machine Learnning：Field of study that gives computers the ability to learn without being explicitly programmed —— Arthur Samuel（1959）</code></p>
 <h3 id="1-1-3-监督学习"><a href="#1-1-3-监督学习" class="headerlink" title="1.1.3 监督学习"></a>1.1.3 监督学习</h3><h4 id="1-1-3-1-什么是监督学习？"><a href="#1-1-3-1-什么是监督学习？" class="headerlink" title="1.1.3.1 什么是监督学习？"></a>1.1.3.1 什么是监督学习？</h4><p>**监督学习：**从正确答案中学习X—&gt;Y，输入—&gt;输出的映射的算法</p>
 <h4 id="1-1-3-1-监督学习的种类"><a href="#1-1-3-1-监督学习的种类" class="headerlink" title="1.1.3.1 监督学习的种类"></a>1.1.3.1 监督学习的种类</h4><p><strong>回归<code>(REgression)</code>：</strong> 学习从无限多的数字中预测数字（eg. 预测房价）</p>
