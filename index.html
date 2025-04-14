@@ -208,6 +208,32 @@
 <li><p>前置基础：<strong>线性代数</strong>、<strong>微积分</strong>、<strong>优化</strong>、<strong>Python</strong>、<strong>PyTorch</strong>、</p>
 </li>
 </ul>
+<h3 id="1-1-什么是欠驱动？"><a href="#1-1-什么是欠驱动？" class="headerlink" title="1.1 什么是欠驱动？"></a>1.1 什么是欠驱动？</h3><p>通俗的解释是：系统的自由度数量<strong>大于</strong>系统的控制输入（系统的电机数量不够多），只能通过系统的动力学特性控制系统。</p>
+<p><strong>GPT</strong>的解释是：“欠驱动”在机器人学中指的是系统的可控输入数量少于系统自由度数量，也就是说，机器人或动态系统中并非所有运动方向都可以直接施加控制力。</p>
+<p>对于一个控制系统<br>$$<br>\dot{x} &#x3D; Ax+Bu<br>$$<br>其中$rank(x)&#x3D;m$，$rank(B)&#x3D;n$，如果$rank(B)&lt;rank(x)$则系统是欠驱动的。</p>
+<h3 id="1-2-什么是非完整性约束？"><a href="#1-2-什么是非完整性约束？" class="headerlink" title="1.2 什么是非完整性约束？"></a>1.2 什么是非完整性约束？</h3><p>约束可以分为：<strong>完整性约束</strong>和<strong>非完整性约束</strong>。</p>
+<p><strong>完整性约束</strong>：约束系统必须到达某个位置，是位置约束。</p>
+<p><strong>非完整性约束</strong>：约束系统运动过程中速度$v$、加速度$a$ etc.</p>
+<p><strong>GPT</strong>的解释：</p>
+<ol>
+<li><p>完整性约束（Holonomic Constraint）</p>
+<ul>
+<li><p><strong>定义</strong>：完整性约束是指可以表示为仅含坐标变量和时间的等式的约束条件，例如：<br>$$<br>f(q_1,q_2,…,q_n,t)&#x3D;0<br>$$</p>
+</li>
+<li><p><strong>特点</strong>：这类约束可以通过积分从速度约束转化为坐标约束，限制了系统的可达空间。</p>
+</li>
+</ul>
+</li>
+<li><p>非完整性约束（Nonholonomic Constraint）</p>
+<ul>
+<li><strong>定义</strong>：非完整性约束是指无法通过积分转化为仅含坐标变量的等式的约束条件，通常涉及速度或更高阶导数，例如：</li>
+</ul>
+<p>$$<br>g(q_1,q_2,…,q_n,q˙_1,q˙_2,…,q˙_n,t)&#x3D;0<br>$$</p>
+<ul>
+<li><strong>特点</strong>：这类约束限制了系统的瞬时运动方向，但不一定限制其最终可达的位置。</li>
+</ul>
+</li>
+</ol>
 </div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2025/03/12/dyn-param-cient/">dyn_param_cient</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2025-03-12</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/DEBUG/">DEBUG</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/DEBUG/">DEBUG</a></span><div class="content"><p>在使用<code>dynamic_reconfigure::Client</code>时出一个奇怪的现象，<code>getCurrentConfiguration()</code>获取不到现有的参数。查看该函数的实现</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief getCurrentConfiguration Gets the latest configuration from the</span></span><br><span class="line"><span class="comment"> * dynamic_reconfigure::Server</span></span><br><span class="line"><span class="comment"> * @param configuration The object where the configuration will be stored</span></span><br><span class="line"><span class="comment"> * @param timeout The duration that the client should wait for the</span></span><br><span class="line"><span class="comment"> * configuration, if set to ros::Duration(0) will wait indefinetely</span></span><br><span class="line"><span class="comment"> * @return False if the timeout has happened</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">getCurrentConfiguration</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    ConfigType&amp; configuration,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">const</span> ros::Duration&amp; timeout = ros::Duration(<span class="number">0</span>))</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (timeout == ros::<span class="built_in">Duration</span>(<span class="number">0</span>)) &#123;</span><br><span class="line">    <span class="built_in">ROS_INFO_ONCE</span>(<span class="string">&quot;Waiting for configuration...&quot;</span>);</span><br><span class="line">    boost::<span class="function">mutex::scoped_lock <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!received_configuration_) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!ros::<span class="built_in">ok</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      cv_.<span class="built_in">wait</span>(lock);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ros::Time start_time = ros::Time::<span class="built_in">now</span>();</span><br><span class="line">    boost::<span class="function">mutex::scoped_lock <span class="title">lock</span><span class="params">(mutex_)</span></span>;</span><br><span class="line">    <span class="keyword">while</span> (!received_configuration_) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!ros::<span class="built_in">ok</span>()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      ros::Duration time_left = timeout - (ros::Time::<span class="built_in">now</span>() - start_time);</span><br><span class="line">      <span class="keyword">if</span> (time_left.<span class="built_in">toSec</span>() &lt;= <span class="number">0.0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      cv_.<span class="built_in">wait_for</span>(lock, boost::chrono::<span class="built_in">nanoseconds</span>(time_left.<span class="built_in">toNSec</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  configuration = latest_configuration_;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
