@@ -192,6 +192,17 @@
 <p>关于基函数的定义：基函数由递推得出。零阶的基函数如下定义：<br>$$<br>N_{i,0}(t)&#x3D;\left{<br>\begin{aligned}<br>1 &amp; &amp;t \in[U_{i},U_{i+1})\<br>0 &amp; &amp;otherwise\<br>\end{aligned}<br>\right.<br>$$<br>对于高阶的基函数，其递推公式为：<br>$$<br>N_{i,p}(u)&#x3D;\frac{u-u_{i}}{u_{i+p}-u_i}N_{i,p-1}(u)+\frac{u_{i+1+p-u}}{u_{i+1+p}-u_{i+1}}N_{i+1,p-1}(u)<br>$$<br>据此可以得到一阶、二阶、三阶的基函数如下<br>$$<br>N_{i,1}(t)&#x3D;\left{<br>\begin{aligned}<br>\frac{u-u_i}{u_{i+1}-u_i} &amp; &amp;t \in[U_{i},U_{i+1})\<br>\frac{u_{i+2}-u}{u_{i+2}-u_{i+1}} &amp; &amp;t \in[U_{i+1},U_{i+2})\<br>\end{aligned}<br>\right.<br>$$</p>
 <p>$$<br>N_{i,2}(t)&#x3D;\left{<br>\begin{aligned}<br>\frac{u-u_i}{u_{i+2}-u_i} * \frac{u-u_i}{u_{i+1}-u_i}  &amp; &amp;t \in[U_{i},U_{i+1})\<br>\frac{u-u_i}{u_{i+2}-u_{i}} * \frac{u_{i+2}-u}{u_{i+2}-u_{i+1}} + \frac{u_{i+3}-u}{u_{i+3-u{i+1}}}*\frac{u-u_{i+1}}{u_{i+2}-u_{i+1}}  &amp; &amp;t \in[U_{i+1},U_{i+2})\<br>\frac{u_{i+3}-u}{u_{i+3}-u_{i+1}} * \frac{u_{i+3}-u}{u_{i+3}-u_{i+2}}  &amp; &amp;t \in[U_{i+2},U_{i+3})\<br>\end{aligned}<br>\right.<br>$$</p>
 <p>以二阶B样条曲线为例，论证在$u_0&#x3D;0,u_1&#x3D;1,u_2&#x3D;2,u_3&#x3D;3,u_4&#x3D;4$情况下二阶基函数表达式:<br>$$<br>N_{0,2}(u)&#x3D;\left{<br>\begin{aligned}<br>0.5u^2 &amp; &amp;u \in[0,1)\<br>0.5u(2-u)+0.5(3-u)(u-1) &amp; &amp;u \in[1,2)\<br>0.5(3-u)(3-u) &amp; &amp;u \in[2,3)\<br>\end{aligned}<br>\right.<br>$$<br>三阶基函数如下:<br>$$<br>N_{0,3}(u)&#x3D;\frac{1}{6}\left{<br>\begin{aligned}<br>u^3 &amp; &amp;u \in[0,1)\<br>u^2(2-u)+u(3-u)(u-1)+(4-u)(u-1)^2 &amp; &amp;u \in[1,2)\<br>u(3-u)^2+(u-1)(3-u)(4-u)+(4-u)^2(u-2) &amp; &amp;u \in[2,3)\<br>(4-u)^3 &amp; &amp;u \in[3,4)\<br>\end{aligned}<br>\right.<br>$$</p>
+<p>B样条曲线具有如下性质：</p>
+<ol>
+<li><p>移动一个点$p(k)$至$p(k)<em>{new} &#x3D; p(k)+\Delta v$其对曲线的影响:<br>$$<br>c(t) &#x3D; \sum</em>{i&#x3D;0}^{n}{N_{i,P}*P(i)}&#x3D; \sum_{i&#x3D;0}^{n}{N_{i,P}<em>P(i)} + N_{k,p}</em>\Delta v<br>$$<br>不会“牵一发而动全身”</p>
+</li>
+<li><p>对于三阶B样条曲线上的某一段$[u_{i},u_{i+1}]$，能够对这一段造成影响的控制点为$p(i-3),p(i-2),p(i-1),p(i)$</p>
+</li>
+<li><p>一阶及其以上阶数的B样条曲线是连续的</p>
+</li>
+<li><p>B样条的导数还是B样条</p>
+</li>
+</ol>
 <h1 id="吴恩达：机器学习"><a href="#吴恩达：机器学习" class="headerlink" title="吴恩达：机器学习"></a>吴恩达：机器学习</h1><h2 id="第一部分-了解机器学习"><a href="#第一部分-了解机器学习" class="headerlink" title="第一部分 了解机器学习"></a>第一部分 了解机器学习</h2><h3 id="1-1-1-欢迎来到机器学习"><a href="#1-1-1-欢迎来到机器学习" class="headerlink" title="1.1.1 欢迎来到机器学习"></a>1.1.1 欢迎来到机器学习</h3><h3 id="1-1-2-什么是机器学习？"><a href="#1-1-2-什么是机器学习？" class="headerlink" title="1.1.2 什么是机器学习？"></a>1.1.2 什么是机器学习？</h3><p><code>Machine Learnning：Field of study that gives computers the ability to learn without being explicitly programmed —— Arthur Samuel（1959）</code></p>
 <h3 id="1-1-3-监督学习"><a href="#1-1-3-监督学习" class="headerlink" title="1.1.3 监督学习"></a>1.1.3 监督学习</h3><h4 id="1-1-3-1-什么是监督学习？"><a href="#1-1-3-1-什么是监督学习？" class="headerlink" title="1.1.3.1 什么是监督学习？"></a>1.1.3.1 什么是监督学习？</h4><p>**监督学习：**从正确答案中学习X—&gt;Y，输入—&gt;输出的映射的算法</p>
 <h4 id="1-1-3-1-监督学习的种类"><a href="#1-1-3-1-监督学习的种类" class="headerlink" title="1.1.3.1 监督学习的种类"></a>1.1.3.1 监督学习的种类</h4><p><strong>回归<code>(REgression)</code>：</strong> 学习从无限多的数字中预测数字（eg. 预测房价）</p>
