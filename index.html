@@ -23,17 +23,23 @@
 
 <h3 id="搬运砖块："><a href="#搬运砖块：" class="headerlink" title="搬运砖块："></a>搬运砖块：</h3><img src="https://i.imgs.ovh/2025/08/07/o1rNY.png" alt="自主进砖" style="zoom: 50%;" />
 
+
+
 <img src="https://i.imgs.ovh/2025/08/07/o1Lxn.png" alt="进砖余量" style="zoom: 50%;" />
+
+
 
 <img src="https://i.imgs.ovh/2025/08/07/o3VXm.jpeg" alt="进砖块时序图" style="zoom: 70%;" />
 
 <h3 id="自主进电梯："><a href="#自主进电梯：" class="headerlink" title="自主进电梯："></a>自主进电梯：</h3><img src="https://i.imgs.ovh/2025/08/07/o1AZr.png" alt="自主进电梯" style="zoom: 50%;" />
 
+
+
 <img src="https://i.imgs.ovh/2025/08/07/o3y2t.jpeg" alt="进电梯时序图" style="zoom: 60%;" />
 
 <h2 id="自主划线车"><a href="#自主划线车" class="headerlink" title="自主划线车"></a>自主划线车</h2><img src="https://i.imgs.ovh/2025/08/07/o3Rhp.png" alt="划线小车" style="zoom: 50%;" />
 
-<h2 id="爬壁机器人"><a href="#爬壁机器人" class="headerlink" title="爬壁机器人"></a>爬壁机器人</h2><img src="https://i.imgs.ovh/2025/08/07/o3q6O.png" alt="划线小车" style="zoom: 50%;" />
+<h2 id="爬壁机器人"><a href="#爬壁机器人" class="headerlink" title="爬壁机器人"></a>爬壁机器人</h2><img src="https://i.imgs.ovh/2025/08/07/o3q6O.png" alt="爬壁小车" style="zoom: 50%;" />
 </div><hr></div><div class="recent-post-item article-container"><a class="article-title" href="/2025/06/11/%E5%8A%A8%E6%80%81%E5%BA%93%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98/">动态库依赖问题</a><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2025-06-11</time><span class="article-meta"><span class="article-meta__separator">|</span><i class="fa fa-inbox article-meta__icon" aria-hidden="true"></i><a class="article-meta__categories" href="/categories/DEBUG/">DEBUG</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fa fa-tag article-meta__icon" aria-hidden="true"></i><a class="article-meta__tags" href="/tags/DEBUG/">DEBUG</a></span><div class="content"><p>在搭建四轮四转小车的过程中，直接使用工控机控制电机驱动器。使用CAN卡将USB转成CAN，厂家提供了用于二次开发的动态库<code>libcontrolcan</code>。在此基础上我开发了<code>CanHandle，SteeringHandle，WalkHandle，Basecontrol</code>。同样将其编译成动态库。</p>
 <p>动态库拿到新的工作空间编译后出现找不到厂家动态库问题：</p>
 <img src="https://i.imgs.ovh/2025/06/11/b5Jlt.png" alt="找不到厂家动态库的实现" style="zoom: 67%;" />
